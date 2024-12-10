@@ -1,16 +1,11 @@
 # movie_app
 
-A new Flutter project.
+A simple Flutter project connected to an internal database with the ability to add and read boxes.
 
-## Getting Started
+## Screenshots
 
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+<div style="display: flex; justify-content: space-around; align-items: center;">
+  <img src="screenshots/image1.png" alt="Screenshot 1" width="200" />
+  <img src="screenshots/image2.png" alt="Screenshot 2" width="200" />
+  <img src="screenshots/image3.png" alt="Screenshot 3" width="200" />
+</div>
