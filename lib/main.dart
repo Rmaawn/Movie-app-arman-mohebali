@@ -1,16 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:movie_app/Theme/appTheme.dart';
 import 'package:movie_app/data/data.dart';
 import 'package:movie_app/screen/addPage.dart';
 import 'package:movie_app/screen/homePage.dart';
 import 'package:movie_app/screen/profilePage.dart';
+import 'package:provider/provider.dart';
 
 void main() async {
   await Hive.initFlutter();
   Hive.registerAdapter(MovieAdapter());
   await Hive.openBox<Movie>('movies');
 
-  runApp(const MyApp());
+  runApp(ChangeNotifierProvider(
+    create: (_) => ThemeProvider(),
+    child: const MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -18,17 +22,13 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final themeProvider = Provider.of<ThemeProvider>(context);
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Movie App',
-      theme: ThemeData.dark().copyWith(
-        primaryColor: Colors.deepPurple,
-        scaffoldBackgroundColor: Colors.black,
-        appBarTheme: const AppBarTheme(
-          backgroundColor: Colors.deepPurple,
-          elevation: 0,
-        ),
-      ),
+      theme: appTheme().lightTheme,
+      darkTheme: appTheme().darkTheme,
+      themeMode: themeProvider.themeMode,
       home: const BasePage(),
     );
   }
@@ -47,7 +47,7 @@ class _BasePageState extends State<BasePage> {
   final List<Widget> _pages = [
     const HomePage(),
     const AddPage(),
-    const profilePage()  
+    const profilePage()
   ];
 
   @override
@@ -55,7 +55,7 @@ class _BasePageState extends State<BasePage> {
     return Scaffold(
       body: _pages[_selectedIndex],
       bottomNavigationBar: NavigationBar(
-        backgroundColor: const Color(0xff1B1F2A),
+        // backgroundColor: const Color(0xff1B1F2A),
         selectedIndex: _selectedIndex,
         onDestinationSelected: (int index) {
           setState(() {
@@ -64,7 +64,7 @@ class _BasePageState extends State<BasePage> {
         },
         destinations: const [
           NavigationDestination(
-            icon: Icon(Icons.home_rounded),
+            icon: Icon(Icons.home_outlined),
             label: 'Home',
           ),
           NavigationDestination(
@@ -72,7 +72,7 @@ class _BasePageState extends State<BasePage> {
             label: 'Add',
           ),
           NavigationDestination(
-            icon: Icon(Icons.person),
+            icon: Icon(Icons.account_circle_outlined),
             label: 'Profile',
           ),
         ],

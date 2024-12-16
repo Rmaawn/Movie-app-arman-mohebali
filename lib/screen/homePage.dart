@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:movie_app/data/data.dart';
 import 'package:movie_app/screen/movieDetailPage.dart';
+import 'package:movie_app/widgets.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -13,17 +14,17 @@ class HomePage extends StatelessWidget {
     final Box<Movie> movieBox = Hive.box<Movie>('movies');
 
     return Scaffold(
-      backgroundColor: const Color(0xff131722),
+      // backgroundColor: const Color(0xff131722),
       appBar: AppBar(
         centerTitle: true,
-        backgroundColor: const Color(0xff1B1F2A),
+        // backgroundColor: const Color(0xff1B1F2A),
         title: const Text('Movies'),
         actions: const [
           Padding(
               padding: EdgeInsets.fromLTRB(0, 0, 16, 0),
               child: Icon(
                 Icons.search_rounded,
-                color: Colors.white,
+                // color: Colors.white,
               ))
         ],
       ),
@@ -45,10 +46,9 @@ class HomePage extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const Text('Discover',
-                      style: TextStyle(fontSize: 22, color: Colors.white)),
-                  // اینجا می‌گذاریم که به صورت افقی اسکرول شود
+                      style: TextStyle(fontSize: 22,)),
                   SizedBox(
-                    height: 350, // ارتفاع ثابت برای اسکرول افقی
+                    height: 350,
                     child: ListView.builder(
                       padding: const EdgeInsets.all(8.0),
                       scrollDirection: Axis.horizontal,
@@ -56,22 +56,20 @@ class HomePage extends StatelessWidget {
                       itemBuilder: (context, index) {
                         final movie = movies[index];
             
-                        return InkWell(
+                        return GestureDetector(
                           onTap: () {
                             _showMovieDetails(context, movie);
                           },
                           child: Container(
-                            width: 200, // عرض ثابت برای هر کارت
+                            width: 200,
                             margin: const EdgeInsets.only(
-                                right: 12), // فاصله بین کارت‌ها
+                                right: 12),
                             decoration: BoxDecoration(
-                              // color: const Color(0xff1B1F2A),
                               borderRadius: BorderRadius.circular(12),
                             ),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
-                                // تصویر فیلم
                                 ClipRRect(
                                   borderRadius: BorderRadius.circular(12),
                                   child: movie.imagePath.isNotEmpty
@@ -89,16 +87,15 @@ class HomePage extends StatelessWidget {
                                               color: Colors.white, size: 40),
                                         ),
                                 ),
-                                // نام فیلم
                                 Padding(
                                   padding:
                                       const EdgeInsets.symmetric(vertical: 8.0),
                                   child: Text(
                                     movie.name,
                                     style: const TextStyle(
-                                      fontSize: 16,
+                                      fontSize: 18,
                                       fontWeight: FontWeight.bold,
-                                      color: Colors.white,
+                                      // color: Colors.white,
                                     ),
                                     textAlign: TextAlign.center,
                                     maxLines: 1,
@@ -112,83 +109,27 @@ class HomePage extends StatelessWidget {
                       },
                     ),
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                       const Text('Action',
-                          style: TextStyle(fontSize: 22, color: Colors.white)),
-                      ElevatedButton(onPressed: () {
-                        
-                      },style:ElevatedButton.styleFrom(backgroundColor: const Color(0xff0C386B),foregroundColor: Colors.white),
-                       child: const Text('See all',style: TextStyle(fontSize: 16),))    
-                    ],
-                  ),
-                  SizedBox(
-                    height: 220, // ارتفاع ثابت برای اسکرول افقی
-                    child: ListView.builder(
-                      padding: const EdgeInsets.all(8.0),
-                      scrollDirection: Axis.horizontal,
-                      itemCount: movies.length,
-                      itemBuilder: (context, index) {
-                        final movie = movies[index];
-            
-                        return InkWell(
-                          onTap: () {
-                            _showMovieDetails(context, movie);
-                          },
-                          child: Container(
-                            width: 100, // عرض ثابت برای هر کارت
-                            margin: const EdgeInsets.only(
-                                right: 12), // فاصله بین کارت‌ها
-                            decoration: BoxDecoration(
-                              color: const Color(0xff1B1F2A),
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                // تصویر فیلم
-                                ClipRRect(
-                                  borderRadius: BorderRadius.circular(12),
-                                  child: movie.imagePath.isNotEmpty
-                                      ? Image.file(
-                                          File(movie.imagePath),
-                                          width: double.infinity,
-                                          height: 150,
-                                          fit: BoxFit.cover,
-                                        )
-                                      : Container(
-                                          width: double.infinity,
-                                          height: 180,
-                                          color: Colors.grey,
-                                          child: const Icon(Icons.movie,
-                                              color: Colors.white, size: 40),
-                                        ),
-                                ),
-                                // نام فیلم
-                                Padding(
-                                  padding:
-                                      const EdgeInsets.symmetric(vertical: 8.0),
-                                  child: Text(
-                                    movie.name,
-                                    style: const TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.white,
-                                    ),
-                                    textAlign: TextAlign.center,
-                                    maxLines: 1,
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        );
-                      },
-                    ),
-                  ),
-                  
+                HorizontalMovieListWithTitle(
+                  title: 'Action',
+                  movies: movies,
+                  onMovieTap: (context, movie) {
+                    _showMovieDetails(context, movie); 
+                  },
+                ),
+                HorizontalMovieListWithTitle(
+                  title: 'Drama',
+                  movies: movies,
+                  onMovieTap: (context, movie) {
+                    _showMovieDetails(context, movie); 
+                  },
+                ),
+                HorizontalMovieListWithTitle(
+                  title: 'Sci-fi',
+                  movies: movies,
+                  onMovieTap: (context, movie) {
+                    _showMovieDetails(context, movie); 
+                  },
+                ),
                 ],
               ),
             ),

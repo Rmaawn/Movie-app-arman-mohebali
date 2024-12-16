@@ -11,52 +11,55 @@ class MovieDetailsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor:const Color(0xff131722),
+      // backgroundColor:const Color(0xff131722),
       appBar: AppBar(
-        centerTitle:true,
-        backgroundColor:const Color(0xff1B1F2A),
+        // centerTitle:true,
+        // backgroundColor:const Color(0xff1B1F2A),
         title: const Text('Discription'),
       ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          if (movie.imagePath.isNotEmpty)
-            ShaderMask(
-                shaderCallback: (rect) {
-                  return const LinearGradient(
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
-                    colors: [Color(0xff1B1F2A), Colors.transparent],
-                  ).createShader(Rect.fromLTRB(0, 0, rect.width, rect.height));
-                },
-                blendMode: BlendMode.dstIn,
-              child: Image.file(
-                File(movie.imagePath),
-                width: double.infinity,
-                height: 550,
-                fit: BoxFit.cover,
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            if (movie.imagePath.isNotEmpty)
+              ShaderMask(
+                  shaderCallback: (rect) {
+                    return const LinearGradient(
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                      colors: [Color(0xff1B1F2A), Colors.transparent],
+                    ).createShader(Rect.fromLTRB(0, 0, rect.width, rect.height));
+                  },
+                  blendMode: BlendMode.dstIn,
+                child: Image.file(
+                  File(movie.imagePath),
+                  width: double.infinity,
+                  height: 550,
+                  fit: BoxFit.cover,
+                ),
+              ),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(20,0,20,0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    movie.name,
+                    style: const TextStyle(
+                      fontSize: 32,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+              const SizedBox(height: 8.0),
+              Text(
+                movie.description,
+                style: const TextStyle(fontSize: 16.0),
+              ),
+                ],
               ),
             ),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(20,0,20,0),
-            child: Column(
-              children: [
-                Text(
-                  movie.name,
-                  style: const TextStyle(
-                    fontSize: 32,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-            const SizedBox(height: 8.0),
-            Text(
-              movie.description,
-              style: const TextStyle(fontSize: 16.0),
-            ),
-              ],
-            ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
